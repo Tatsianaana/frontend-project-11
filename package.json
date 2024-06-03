@@ -1,15 +1,17 @@
 {
   "name": "@hexlet/code",
   "version": "1.0.0",
-  "description": "[![Actions Status](https://github.com/Tatsianaana/frontend-project-11/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/Tatsianaana/frontend-project-11/actions)",
-  "main": "index.js",
+  "description": "RSS Agregator",
+  "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "Tatsiana Nazemnova <kazachaya.tatyana@mail.ru> (https://github.com/Tatsianaana)",
   "license": "ISC",
   "devDependencies": {
-    "@webpack-cli/generators": "^3.0.7",
+    "@babel/core": "^7.24.6",
+    "@babel/preset-env": "^7.24.6",
+    "babel-loader": "^9.1.3",
     "css-loader": "^7.1.2",
     "eslint": "^8.57.0",
     "eslint-config-airbnb-base": "^15.0.0",
@@ -25,6 +27,11 @@
     "webpack-dev-server": "^5.0.4"
   },
   "dependencies": {
-    "bootstrap": "^5.3.3"
+    "axios": "^1.7.2",
+    "bootstrap": "^5.3.3",
+    "i18next": "^23.11.5",
+    "lodash": "^4.17.21",
+    "on-change": "^5.0.1",
+    "yup": "^1.4.0"
   }
 }
