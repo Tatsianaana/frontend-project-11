@@ -10,9 +10,8 @@
         "sourceType": "module"
     },
     "rules": {
-        "no-unused-vars": "warn",
-        "import/prefer-default-export": "off",
-        "no-restricted-syntax": "off",
-        no-console: 0
+        "no-console": 0,
+        "import/extensions": 0,
+        "no-param-reassign": 0
     }
 }
