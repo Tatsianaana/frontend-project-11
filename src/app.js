@@ -1,33 +1,11 @@
 import * as yup from 'yup';
-import onChange from 'on-change';
 import axios from 'axios';
-import _, { uniqueId } from 'lodash';
+import uniqueId from 'lodash/uniqueId';
+import keyBy from 'lodash/keyBy';
 import i18next from 'i18next';
-import view from './view.js';
+import initView from './view.js';
 import resources from './locales/index.js';
-
-const parse = (data) => {
-  const parser = new DOMParser();
-  const doc = parser.parseFromString(data, 'application/xml');
-  const errorNode = doc.querySelector('parsererror');
-  if (errorNode) {
-    throw new Error('Parsing Error');
-  }
-
-  const title = doc.querySelector('title').textContent;
-  const description = doc.querySelector('description').textContent;
-  const posts = [...doc.querySelectorAll('item')]
-    .map((item) => {
-      const post = {
-        title: item.querySelector('title').textContent,
-        link: item.querySelector('link').textContent,
-        description: item.querySelector('description').textContent,
-      };
-
-      return post;
-    });
-  return { title, description, posts };
-};
+import parse from './parse.js';
 
 const app = (i18nextInstance) => {
   const state = {
@@ -63,7 +41,7 @@ const app = (i18nextInstance) => {
     },
   };
 
-  const watchedState = onChange(state, view(state, elements, i18nextInstance));
+  const watchedState = initView(state, elements, i18nextInstance);
 
   const buildOriginUrl = (url) => {
     const originUrl = new URL('/get', 'https://allorigins.hexlet.app');
@@ -133,7 +111,7 @@ const app = (i18nextInstance) => {
       .validate(field, { abortEarly: false })
       .then(() => {})
       .catch((e) => {
-        throw _.keyBy(e.inner, 'path');
+        throw keyBy(e.inner, 'path');
       });
   };
 
@@ -213,7 +191,6 @@ export default () => {
   i18nextInstance
     .init({
       lng: 'ru',
-      debug: true,
       resources,
     })
     .then(() => app(i18nextInstance));
