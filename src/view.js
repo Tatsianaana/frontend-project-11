@@ -1,4 +1,5 @@
 import { Modal } from 'bootstrap';
+import onChange from 'on-change';
 
 const errorHandler = (errorName, elements, i18n) => {
   elements.input.classList.add('is-invalid');
@@ -130,29 +131,32 @@ const processStatusHandler = (elements, process, state, i18n) => {
   }
 };
 
-const initView = (state, elements, i18n) => (path, value, _, applyData) => {
-  switch (path) {
-    case 'content.feeds':
-      feedHandler(...applyData.args, elements, i18n);
-      break;
-    case 'content.posts':
-      postHandler(applyData.args, elements, i18n);
-      break;
-    case 'form.status':
-      processStatusHandler(elements, value, state, i18n);
-      break;
-    case 'modal':
-      modalContentHandler(value, elements);
-      break;
-    case 'uiState.modalShow':
-      modalShowHandler(value, elements);
-      break;
-    case 'uiState.visitedPosts':
-      visitedPostsHandler(...applyData.args);
-      break;
-    default:
-      break;
-  }
+const initView = (state, elements, i18n) => {
+  const watchedState = onChange(state, (path, value, _, applyData) => {
+    switch (path) {
+      case 'content.feeds':
+        feedHandler(...applyData.args, elements, i18n);
+        break;
+      case 'content.posts':
+        postHandler(applyData.args, elements, i18n);
+        break;
+      case 'form.status':
+        processStatusHandler(elements, value, state, i18n);
+        break;
+      case 'modal':
+        modalContentHandler(value, elements);
+        break;
+      case 'uiState.modalShow':
+        modalShowHandler(value, elements);
+        break;
+      case 'uiState.visitedPosts':
+        visitedPostsHandler(...applyData.args);
+        break;
+      default:
+        break;
+    }
+  });
+  return watchedState;
 };
 
 export default initView;
